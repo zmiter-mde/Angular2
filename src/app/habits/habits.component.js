@@ -10,49 +10,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
-var hero_service_1 = require('./../hero.service');
+var habit_service_1 = require('./habit.service');
 var HabitsComponent = (function () {
-    function HabitsComponent(heroService, router) {
-        this.heroService = heroService;
+    function HabitsComponent(habitService, router) {
+        this.habitService = habitService;
         this.router = router;
     }
-    HabitsComponent.prototype.getHeroes = function () {
+    HabitsComponent.prototype.getHabits = function () {
         var _this = this;
-        this.heroService
-            .getHeroes()
-            .then(function (heroes) { return _this.heroes = heroes; });
-    };
-    HabitsComponent.prototype.add = function (name) {
-        var _this = this;
-        name = name.trim();
-        if (!name) {
-            return;
-        }
-        this.heroService.create(name)
-            .then(function (hero) {
-            _this.heroes.push(hero);
-            _this.selectedHero = null;
+        this.habitService
+            .getHabits()
+            .then(function (habits) {
+            console.log('Inside component');
+            console.log(habits);
+            _this.habits = habits;
         });
-    };
-    HabitsComponent.prototype.delete = function (hero) {
-        var _this = this;
-        this.heroService
-            .delete(hero.id)
-            .then(function () {
-            _this.heroes = _this.heroes.filter(function (h) { return h !== hero; });
-            if (_this.selectedHero === hero) {
-                _this.selectedHero = null;
-            }
-        });
+        console.log('In getHabits');
     };
     HabitsComponent.prototype.ngOnInit = function () {
-        this.getHeroes();
-    };
-    HabitsComponent.prototype.onSelect = function (hero) {
-        this.selectedHero = hero;
-    };
-    HabitsComponent.prototype.gotoDetail = function () {
-        this.router.navigate(['/detail', this.selectedHero.id]);
+        this.getHabits();
+        console.log('In ngOnInit');
     };
     HabitsComponent = __decorate([
         core_1.Component({
@@ -61,7 +38,7 @@ var HabitsComponent = (function () {
             templateUrl: 'habits.component.html',
             styleUrls: ['habits.component.css']
         }), 
-        __metadata('design:paramtypes', [hero_service_1.HeroService, router_1.Router])
+        __metadata('design:paramtypes', [habit_service_1.HabitService, router_1.Router])
     ], HabitsComponent);
     return HabitsComponent;
 }());

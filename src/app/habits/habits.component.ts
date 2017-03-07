@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router }            from '@angular/router';
 
-import { Hero }                from './../hero';
-import { HeroService }         from './../hero.service';
+import { Habit }                from './habit';
+import { HabitService }         from './habit.service';
 
 @Component({
   moduleId: module.id,
@@ -11,47 +11,26 @@ import { HeroService }         from './../hero.service';
   styleUrls: [ 'habits.component.css' ]
 })
 export class HabitsComponent implements OnInit {
-  heroes: Hero[];
-  selectedHero: Hero;
+  habits: Habit[];
+  selectedHabit: Habit;
 
   constructor(
-    private heroService: HeroService,
+    private habitService: HabitService,
     private router: Router) { }
 
-  getHeroes(): void {
-    this.heroService
-        .getHeroes()
-        .then(heroes => this.heroes = heroes);
-  }
-
-  add(name: string): void {
-    name = name.trim();
-    if (!name) { return; }
-    this.heroService.create(name)
-      .then(hero => {
-        this.heroes.push(hero);
-        this.selectedHero = null;
-      });
-  }
-
-  delete(hero: Hero): void {
-    this.heroService
-        .delete(hero.id)
-        .then(() => {
-          this.heroes = this.heroes.filter(h => h !== hero);
-          if (this.selectedHero === hero) { this.selectedHero = null; }
+  getHabits(): void {
+    this.habitService
+        .getHabits()
+        .then((habits) => {
+          console.log('Inside component');
+          console.log(habits);
+          this.habits = habits;
         });
+    console.log('In getHabits');
   }
 
   ngOnInit(): void {
-    this.getHeroes();
-  }
-
-  onSelect(hero: Hero): void {
-    this.selectedHero = hero;
-  }
-
-  gotoDetail(): void {
-    this.router.navigate(['/detail', this.selectedHero.id]);
+    this.getHabits();
+    console.log('In ngOnInit');
   }
 }
